@@ -17,6 +17,7 @@ import { Router } from 'react-native-router-flux'
 /** This package allows the user to manage their React Navigation state from within Redux. */
 import { createReduxContainer, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 import logger from './middleware/logger';
+import { Root } from 'native-base';
 
 const appReducer = combineReducers({
   nav,
@@ -65,9 +66,11 @@ export default class App extends Component {
         );
       }      
     return (
-      <Provider store={store}>      
-        <ReduxRouter navigator={ReduxNavigator} />
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <ReduxRouter navigator={ReduxNavigator} />
+        </Provider>
+      </Root>
     );
   }
 }
