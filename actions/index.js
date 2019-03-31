@@ -1,4 +1,4 @@
-import storage from '../utils/api';
+import storage from '../utils/MyStorage';
 import { setError } from './error';
 import { setSuccess } from './success';
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
