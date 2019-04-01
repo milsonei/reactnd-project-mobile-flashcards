@@ -1,16 +1,21 @@
 import { AsyncStorage } from 'react-native'
-
+import { getInitialData } from './helpers';
 const FLASHCARDS_STORAGE_KEY = "mobile-flashcards"
 /**
  * Class wrapper to access and manage AsyncStorage
  */
 class MyStorage{
+    
     /**
      * Get all decks from AsyncStorage
      */
     async getDecks() {
         return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
-            .then((results) => {
+            .then((results) => {        
+                if (results === null) {
+                    results = getInitialData()
+                    AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(results))
+                }
                 const parsedResults = JSON.parse(results)
                 return parsedResults
             })
