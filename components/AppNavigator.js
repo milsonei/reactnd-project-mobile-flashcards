@@ -1,21 +1,21 @@
 import React from 'react'
 import { Actions, Scene } from 'react-native-router-flux'
-import Home from '../screens/Home'
-import NewDeck from '../screens/NewDeck'
-import DeckView from '../screens/DeckView'
-import NewCard from '../screens/NewCard'
-import QuizView from '../screens/QuizView'
+import HomeScreen from '../screens/HomeScreen'
+import NewDeckScreen from '../screens/NewDeckScreen'
+import DeckViewScreen from '../screens/DeckViewScreen'
+import NewCardScreen from '../screens/NewCardScreen'
+import QuizViewScreen from '../screens/QuizViewScreen'
 /**
  * Pass Scene to create your app navigator and the Props the Router should receive. 
  * It is alternative router creation method mostly used for Redux integration
  */
 const AppNavigator = Actions.create(
-    <Scene key="root" hideNavBar={true}>
-        <Scene key="Home" component={Home}/>
-        <Scene key="NewDeck" component={NewDeck}/>
-        <Scene key="DeckView" component={DeckView}/>
-        <Scene key="NewCard" component={NewCard}/>
-        <Scene key="QuizView" component={QuizView}/>
+    <Scene key="root"  hideNavBar ={true}>
+        <Scene key="Home" component={HomeScreen}/>
+        <Scene key="NewDeck" component={NewDeckScreen}/>
+        <Scene key="DeckView" component={DeckViewScreen}/>
+        <Scene key="NewCard" component={NewCardScreen}/>
+        <Scene key="QuizView" component={QuizViewScreen}/>
     </Scene>
 )
     
