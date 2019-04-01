@@ -8,6 +8,7 @@ import nav from './reducers/nav'
 import flux from './reducers/flux'
 import success from './reducers/success'
 import error from './reducers/error'
+import quiz from './reducers/quiz'
 import AppNavigator from './components/AppNavigator'
 /** react-native-router-flux is a different API over react-navigation. 
  * It helps users to define all the routes in one central place and navigate and 
@@ -25,6 +26,7 @@ const appReducer = combineReducers({
   flux,
   success,
   error,
+  quiz
 });
 /**
  * Returns a middleware that can be applied to a Redux store.

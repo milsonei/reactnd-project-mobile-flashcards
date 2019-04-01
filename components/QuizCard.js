@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Actions } from 'react-native-router-flux'
 import FlipCard from 'react-native-flip-card'
-import { Body, Card, CardItem, Button,Text } from 'native-base'
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Row, Grid, Badge, Body, Card, CardItem, Button, Icon, Text } from 'native-base'
 import colors from '../utils/colors'
-export default class QuizCard extends Component{  
-    render(){
+export default class QuizCard extends Component{      
+  render() {
+      const { deck, question, answer, handleAddCorrect, handleAddIncorrect, item} = this.props
         return (          
                 <FlipCard
                 flipHorizontal={true}
@@ -13,14 +12,36 @@ export default class QuizCard extends Component{
                 flip={false}
                 clickable={true}
                 >
-                  <Card style={{alignContent: "center"}}>
-                    <CardItem header bordered>
-                      <Text style={{marginLeft:"auto", marginRight:"auto", fontSize:30}}>{this.props.answer}</Text>
+                  <Card style={{marginTop:"auto", marginBottom: "auto"}}>
+                  <CardItem header bordered> 
+                    <Body style={{height:100}}>
+                        <Grid>
+                          <Row>
+                            <Col style={{width:"20%", padding:5}}>
+                              <Badge info style={{marginLeft: "auto", marginRight: "auto"}}>
+                                  <Text>{item}</Text>
+                              </Badge> 
+                            </Col>
+                            <Col style={{width:"80%", padding:5}}>
+                              <Badge success style={{marginLeft: "auto", marginRight: "auto"}}>
+                                <Text>{deck}</Text>
+                              </Badge>
+                            </Col>                          
+                          </Row>
+                          <Row>
+                            <Col style={{width:"100%", padding:5}}>
+                              <Text style={{ textAlign: "center", marginLeft: "auto", marginRight: "auto", fontSize: 25 }}>
+                              {question}
+                              </Text>
+                            </Col>
+                          </Row>
+                        </Grid>
+                      </Body>
                     </CardItem>
                     <CardItem bordered>
                       <Body>
                         <Text style={{fontWeight:"bold", color:colors.gray, marginLeft:"auto", marginRight:"auto"}}>
-                          Answer
+                          Show Answer
                         </Text>
                       </Body>
                     </CardItem>
@@ -29,41 +50,49 @@ export default class QuizCard extends Component{
                         <Grid>
                           <Row>
                             <Col style={{width:"50%", padding:5}}>
-                              <Button style={{width:"100%"}} success>
+                              <Button style={{ width: "100%" }}
+                                      success
+                                      onPress={() => handleAddCorrect()}>
                                 <Text style={{marginLeft: "auto", marginRight: "auto" }}>
                                   Correct
                                 </Text>
                               </Button>
-                            </Col>
+                            </Col>                          
                             <Col style={{width:"50%", padding:5}}>
-                              <Button style={{width:"100%"}} danger>
+                              <Button style={{ width: "100%" }}
+                                      danger
+                                      onPress={() => handleAddIncorrect()}>
                                 <Text style={{marginLeft: "auto", marginRight: "auto" }}>
                                   Incorrect
                                 </Text>
                               </Button>
                             </Col>
-                          </Row>
+                          </Row>                       
                         </Grid>
                       </Body>
                     </CardItem>
                     </Card>                 
-                  <Card style={{alignContent: "center"}}>
-                      <CardItem header bordered>
-                        <Text style={{marginLeft:"auto", marginRight:"auto", fontSize:30}}>{this.props.question}</Text>
-                      </CardItem>
-                      <CardItem bordered>
-                        <Body>
-                          <Text style={{fontWeight:"bold", color:colors.gray, marginLeft:"auto", marginRight:"auto"}}>
-                          Question
-                          </Text>
-                        </Body>
-                      </CardItem>
-                      <CardItem footer bordered>
+                  <Card style={{marginTop:"auto", marginBottom: "auto"}}>
+                  <CardItem header bordered>
+                      <Body>
+                        <Text style={{ textAlign: "center", marginLeft: "auto", marginRight: "auto", fontSize: 20 }}>
+                          {answer}
+                        </Text>                      
+                      </Body> 
+                    </CardItem>
+                    <CardItem bordered>
+                      <Body>
+                        <Text style={{fontWeight:"bold", color:colors.gray, marginLeft:"auto", marginRight:"auto"}}>
+                        Show Question
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem footer bordered>
                         <Body style={{height:50}}>
                           
                         </Body>
-                      </CardItem>
-                    </Card>            
+                    </CardItem>
+                  </Card>            
                 </FlipCard>
         )
     }
