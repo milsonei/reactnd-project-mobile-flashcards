@@ -24,10 +24,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "br.com.futuraconvites.flashcard"
+      "bundleIdentifier": "br.com.milsonei.flashcard"
     },
     "android": {
-      "package": "br.com.futuraconvites.flashcard"
+      "package": "br.com.milsonei.flashcard"
     }
    
   }
