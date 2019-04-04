@@ -2,6 +2,7 @@
   "expo": {
     "name": "Mobile Flashcards",
     "slug": "mobile_flashcards",
+    "description":"This mobile app lets users study a collection of flashcards and keep learning everyday.",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
