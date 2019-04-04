@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { Platform } from  'react-native'
+import React from 'react'
 import { connect, Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import decks from './reducers/decks'
@@ -48,7 +47,6 @@ const store = createStore(appReducer, applyMiddleware(middleware, logger));
 function NativeBaseApp(){
   return (
     <Provider store={store}>
-      {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
       <ReduxRouter navigator={ReduxNavigator} />
     </Provider>
   );
