@@ -32,7 +32,7 @@ You need an simulator or a mobile device to run this app. The easiest way is to 
 
 [Expo on Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent) - android
 
-## Hosted version
+### Hosted version
 You can run a hosted version of the app at [expo.io/@milsonei/mobile_flashcards/](https://expo.io/@milsonei/mobile_flashcards)
 
 ## How the app looks like
