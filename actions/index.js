@@ -3,6 +3,7 @@ import { setError } from './error';
 import { setSuccess } from './success';
 import { getCurrentDate } from '../utils/helpers';
 import { restartQuiz } from './quiz';
+import notificator from '../utils/MyNotificator';
 export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const ADD_DECK = 'ADD_DECK'
 export const ADD_CARD = 'ADD_CARD'
@@ -128,6 +129,7 @@ export async function handleAddCardToDeck(title, card, dispatch) {
 export async function handleSetCompletedQuiz(deck, correct, incorrect, dispatch) {   
     try {
         await storage.setLastCompletedQuiz(deck, correct, incorrect)
+        notificator.clearAndSetNotification()
         dispatch(setCompletedQuiz(deck, correct, incorrect))
     } catch (ex) {
         dispatch(setError('Error', 'Error on setting completed quiz. Try again.'))
