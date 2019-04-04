@@ -2,74 +2,59 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'
 import {
-    Container,
-    Header,
-    Left,
-    Right,
-    Body,
-    Content,
-    Button,
-    Icon,
-    Title,
-    Badge,
-    Footer,
-    FooterTab,
-    Text
+    Container
 } from 'native-base'
-import TopStatusBar  from './TopStatusBar'
-import colors from '../utils/colors'
 
+import TopStatusBar  from './TopStatusBar'
+import ContainerContent from './ContainerContent'
+import ContainerHeader from './ContainerHeader'
+import ContainerFooter  from './ContainerFooter'
+import PropTypes from 'prop-types'
+/**
+ * Component that renders NativeBase frame component called Container
+ */
 class MainContainer extends Component{
-    currentTab = () => this.props.currentScene.toLowerCase()
-    goHome = () => {       
-        if (this.currentTab() === 'home') return
-        Actions.pop()
+    static propTypes = {
+        children: PropTypes.any,
+        footer: PropTypes.bool,
+        header: PropTypes.bool,
+        currentScene: PropTypes.string,
+        title: PropTypes.string,
+        scrollbar: PropTypes.bool,
+        centerContentVertically: PropTypes.bool,
+        onAddDeck: PropTypes.func.isRequired,
+        onGoHome: PropTypes.func.isRequired,
+        onGoBack: PropTypes.func.isRequired
     }
-    goNewDeck = () => {
-        if (this.currentTab() === 'newdeck') return
-        Actions.NewDeck()
-    }
+    
+    handleGoHome = () => this.props.onGoHome()
+
+    handleAddDeck = () => this.props.onAddDeck()
+
+    handleGoBack = () => this.props.onGoBack()
+
     render() {
-        const { footer, header, currentScene, title } = this.props
+        const { children,
+               footer,
+               header,
+               currentScene,
+               title,
+               scrollbar,
+               centerContentVertically } = this.props
         const currentTab = currentScene.toLowerCase()
         const style = this.props.style || {}
-        
         return (
             <Container>
-                <TopStatusBar backgroundColor={colors.purple} barStyle='light-content' />
-                {header
-                    && (<Header>
-                        <Left>
-                            <Button transparent onPress={() => Actions.pop()}>                    
-                            <Icon name='arrow-back' />           
-                        </Button>
-                        </Left>
-                        <Body>
-                            <Title>{title}</Title>
-                        </Body>         
-                    </Header>)}
-                <Content contentContainerStyle={{flex: 1}} style={{ padding: 20,...style }}>  
-                    {this.props.children}
-                </Content>
-                {footer && (<Footer>
-                    <FooterTab>
-                        <Button active={currentTab === 'home'}
-                                badge
-                                vertical
-                                onPress={() => this.goHome()}>
-                            <Badge><Text>1</Text></Badge>
-                            <Icon name="apps" />
-                            <Text>Decks</Text>
-                        </Button>
-                        <Button
-                            active={currentTab === 'newdeck'}
-                            vertical
-                            onPress={() => this.goNewDeck()}>
-                            <Icon name="add-circle"/>
-                            <Text>New Deck</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>)}
+                <TopStatusBar/>
+                {header && (<ContainerHeader title={title} onGoBack={() => this.handleGoBack()} />)}
+                <ContainerContent centerContentVertically={centerContentVertically}
+                                  scrollbar={scrollbar}
+                                  style={{ ...style }}>
+                    {children}
+                </ContainerContent>               
+                {footer && (<ContainerFooter currentTab={currentTab}
+                                             onGoHome={() => this.handleGoHome()}
+                                             onGoAddDeck={() => this.handleAddDeck()} />)}
           </Container>
         )
     }
@@ -81,5 +66,20 @@ const mapStateToProps = ({ flux }) => {
       currentScene
     }
 };
-  
-export default connect(mapStateToProps)(MainContainer)
+
+const mapDispatchToProps = (_, props) => {
+    const { currentScene } = props
+    return {   
+        onGoBack: () => Actions.pop(),
+        onGoHome : () => {       
+            if (currentScene === 'home') return
+            Actions.pop()
+        },
+        onAddDeck : () => {
+            if (currentScene === 'newdeck') return
+            Actions.NewDeck()
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer)
