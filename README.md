@@ -36,35 +36,37 @@ You need an simulator or a mobile device to run this app. The easiest way is to 
 You can run a hosted version of the app at [expo.io/@milsonei/mobile_flashcards/](https://expo.io/@milsonei/mobile_flashcards)
 
 ### How the app looks like
+```
 Decks (Initial view of the app)
-
+```
 ![Home Screen](images/screenshots/home-1.jpg)
-
+```
 After a quiz is completed, a progress circle is shown on the right side of the deck.
-
+```
 ![Home Screen with progress](images/screenshots/home-2.jpg)
-
+```
 New Deck
-
+```
 ![New Deck](images/screenshots/add-deck.jpg "new deck")
-
+```
 New Card
-
+```
 ![New Deck](images/screenshots/add-card.jpg "new deck")
-
+```
 Start a quiz
-
+```
 ![Deck View](images/screenshots/deck-view.jpg "deck view")
-
+```
 Show quiz question
-
+```
 ![Quiz question](images/screenshots/quiz-question.jpg "quiz question")
-
+```
 Show quiz answer
+```
 ![Quiz answer](images/screenshots/quiz-answer.jpg "quiz answer")
-
+```
 Show the score
-
+```
 ![Quiz score](images/screenshots/quiz-score.jpg "quiz score")
 
 ## Resources and Documentation:
