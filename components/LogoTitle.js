@@ -1,5 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native'
+/**
+ * Component that renders a image
+ */
 function LogoTitle(){
       return (
         <Image          
