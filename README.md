@@ -43,23 +43,29 @@ After a quiz is completed, a progress circle is shown on the right side of the d
 ![Home Screen with progress](images/screenshots/home-1.jpg "home screen with progress")
 
 - New Deck
+```
 ![New Deck](images/screenshots/add-deck.jpg "new deck")
-
+```
 - New Card
+```
 ![New Deck](images/screenshots/add-card.jpg "new deck")
-
+```
 - Start a quiz
+```
 ![Deck View](images/screenshots/deck-view.jpg "deck view")
-
+```
 Show quiz question
+```
 ![Quiz question](images/screenshots/quiz-question.jpg "quiz question")
-
+```
 Show quiz answer
+```
 ![Quiz answer](images/screenshots/quiz-answer.jpg "quiz answer")
-
+```
 - Show the score
+```
 ![Quiz score](images/screenshots/quiz-score.jpg "quiz score")
-
+```
 ## Resources and Documentation:
 - [NativeBase - Essential cross-platform UI components for React Native](https://docs.nativebase.io)
 - [React Native Progress Circle](https://github.com/MrToph/react-native-progress-circle#readme)
