@@ -10,3 +10,23 @@ export const activityIndicatorStyles = StyleSheet.create({
     padding: 10
   }
 })
+
+export const commomStyles = StyleSheet.create({
+  centerVertically: {
+    marginTop: "auto",
+    marginBottom: "auto"
+  },
+  centerHorizontally: {
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  centerText: {
+    textAlign: "center"
+  },
+  centerContent: {
+    alignContent:"center"
+  },
+  maxWidth: {
+    width:"100%"
+  }
+})
