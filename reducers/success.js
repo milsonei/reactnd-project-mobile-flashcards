@@ -6,12 +6,12 @@ import {
  * @param {any} state 
  * @param {any} action 
  */
-export default function success(state = null, { type }) {
+export default function success(state = false, { type }) {
     switch (type) {        
         case SET_SUCCESS:                        
             return true
         case CLEAR_SUCCESS:                        
-            return null           
+            return false           
         default:
             return state
     }
