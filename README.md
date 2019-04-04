@@ -1,4 +1,4 @@
-### React Native/Redux App - Flashcards
+# React Native/Redux App - Flashcards
 ## Project Purpose
 This mobile app (Android or iOS - or both) lets users study a collection of flashcards. 
 With the app, users can create different categories of flashcards called "decks", add flashcards to these decks, and make the quizes in these decks.
@@ -8,13 +8,13 @@ This native mobile app was built using React Native, Redux and NativeBase open s
 
 https://expo.io/@milsonei/mobile_flashcards
 
-### Instalation
-## Expo Cli
+## Instalation
+### Expo Cli
 Expo CLI is a command line app that is the main interface between a developer and Expo tools
 ```
 $ npm install -g expo-cli
 ```
-## Project
+### Project
 In your Terminal(mac)/Command Line(Windows), enter the commands below
 ```
 git clone https://github.com/milsonei/reactnd-project-mobile-flashcards.git
@@ -25,40 +25,40 @@ $ yarn install
 
 $ yarn start OR $ expo start
 ```
-### How to run
+## How to run
 You need an simulator or a mobile device to run this app. The easiest way is to install Expo App on your mobile device then link to the app
 
 [Expo on App Store](https://itunes.apple.com/br/app/expo-client/id982107779?mt=8) - iOS
 
 [Expo on Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent) - android
 
-### Hosted version
+## Hosted version
 You can run a hosted version of the app at [expo.io/@milsonei/mobile_flashcards/](https://expo.io/@milsonei/mobile_flashcards)
 
-### How the app looks like
+## How the app looks like
 
-# Decks (Initial view of the app)
+### Decks (Initial view of the app)
 ![Home Screen](images/screenshots/home-1.jpg)
 
-# After a quiz is completed, a progress circle is shown on the right side of the deck.
+### After a quiz is completed, a progress circle is shown on the right side of the deck.
 ![Home Screen with progress](images/screenshots/home-2.jpg)
 
-# New Deck
+### New Deck
 ![New Deck](images/screenshots/add-deck.jpg "new deck")
 
-# New Card
+### New Card
 ![New Deck](images/screenshots/add-card.jpg "new deck")
 
-# Start a quiz
+### Start a quiz
 ![Deck View](images/screenshots/deck-view.jpg "deck view")
 
-# Show quiz question
+### Show quiz question
 ![Quiz question](images/screenshots/quiz-question.jpg "quiz question")
 
-# Show quiz answer
+### Show quiz answer
 ![Quiz answer](images/screenshots/quiz-answer.jpg "quiz answer")
 
-# Show the score
+### Show the score
 ![Quiz score](images/screenshots/quiz-score.jpg "quiz score")
 
 ## Resources and Documentation:
