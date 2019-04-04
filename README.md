@@ -37,28 +37,28 @@ You can run a hosted version of the app at [expo.io/@milsonei/mobile_flashcards/
 
 ### How the app looks like
 - Decks (Initial view of the app)
-![Home Screen](src/images/screenshots/home-1.jpg "home screen")
+![Home Screen](images/screenshots/home-1.jpg "home screen")
 Will show 2 default Decks
 After a quiz is completed, a progress circle is shown on the right side of the deck.
-![Home Screen with progress](src/images/screenshots/home-1.jpg "home screen with progress")
+![Home Screen with progress](images/screenshots/home-1.jpg "home screen with progress")
 
 - New Deck
-![New Deck](src/images/screenshots/add-deck.jpg "new deck")
+![New Deck](images/screenshots/add-deck.jpg "new deck")
 
 - New Card
-![New Deck](src/images/screenshots/add-card.jpg "new deck")
+![New Deck](images/screenshots/add-card.jpg "new deck")
 
 - Start a quiz
-![Deck View](src/images/screenshots/deck-view.jpg "deck view")
+![Deck View](images/screenshots/deck-view.jpg "deck view")
 
 Show quiz question
-![Quiz question](src/images/screenshots/quiz-question.jpg "quiz question")
+![Quiz question](images/screenshots/quiz-question.jpg "quiz question")
 
 Show quiz answer
-![Quiz answer](src/images/screenshots/quiz-answer.jpg "quiz answer")
+![Quiz answer](images/screenshots/quiz-answer.jpg "quiz answer")
 
 - Show the score
-![Quiz score](src/images/screenshots/quiz-score.jpg "quiz score")
+![Quiz score](images/screenshots/quiz-score.jpg "quiz score")
 
 ## Resources and Documentation:
 - [NativeBase - Essential cross-platform UI components for React Native](https://docs.nativebase.io)
