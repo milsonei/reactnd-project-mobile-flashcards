@@ -1,39 +1,45 @@
 import React, { Component } from 'react'
-import LogoTitle from '../components/LogoTitle'
 import { Actions } from 'react-native-router-flux'
-import { Button, Icon, Text } from 'native-base'
-import { Deck } from '../components/Deck'
+import PropTypes from 'prop-types'
+import Deck  from '../components/Deck'
 import MainContainer from '../components/MainContainer'
 import { handleReceiveDecks } from '../actions';
 import { connect } from 'react-redux';
-import { getSortCondition } from '../utils/helpers'
-import { SuccessToast } from '../components/Toast'
+import {
+  getSortCondition,
+  getCurrentDate
+} from '../utils/helpers'
 import * as Animatable from 'react-native-animatable';
 import Loading from '../components/Loading';
+/**
+ * Component that renders screen responsible for showing specific deck
+ */
 class HomeScreen extends Component {
+  static propTypes = {
+    decks: PropTypes.array.isRequired,
+    cardsWerePlayedToday: PropTypes.bool.isRequired,
+    fetchDecks: PropTypes.func.isRequired,
+    onAddDeck: PropTypes.func.isRequired,
+    onShowDeck: PropTypes.func.isRequired
+  }
+
   state = {
     ready: false,
-    showNotification: false,
     selected:''
-}
-  componentWillMount() {
-    this.props.receiveDecks().then(() => this.setState((state) => ({
-      ...state,
-      ready: true
-    })))
   }
+   
   /**
    * Show selected deck
    */
-  showSelecteDeck() {
-    this.props.showDeck(this.state.selected)
-    this.clearSelect()
+  handleShowDeck = () => {
+    this.props.onShowDeck(this.state.selected)
+    this.clearSelectDeck()
   }
   /**
    * selects deck for animation
    * @param {string} title Title of deck
    */
-  select(title) {
+  handleSelectDeck = (title) => {
     this.setState((state) => ({
       ...state,
       selected: title
@@ -42,12 +48,20 @@ class HomeScreen extends Component {
   /**
    * Clear selected deck
    */
-  clearSelect() {
+  clearSelectDeck = () => {
     this.setState((state) => ({
       ...state,
       selected: ''
     }))
   }
+  
+  componentDidMount() {
+    this.props.fetchDecks().then(() => this.setState((state) => ({
+      ...state,
+      ready: true
+    })))   
+  }
+
   render() {
     const { ready } = this.state
     if (ready === false){
@@ -55,59 +69,68 @@ class HomeScreen extends Component {
         <Loading/>
       )
     }
-   
-    const leftButton = (<Button transparent><LogoTitle /></Button>);
-    const rightButton = (<Button transparent onPress={() => this.props.newDeck()}>
-                          <Icon type="Ionicons" name="add-circle" />
-                          <Text>New</Text>
-    </Button>);   
-    const { decks } = this.props
-    const { selected } = this.state
+    const { decks } = this.props   
+    const { selected } = this.state    
       return (
-        <MainContainer footer title="Decks" leftButton={leftButton} rightButton={rightButton}>
-          {Object.keys(decks).sort((a,b) => getSortCondition(decks[a]['title'],decks[b]['title'], 'asc')).map((key, index) => {
-            const item = decks[key]
-            const title = item.title
-            const body = `${item.questions.length} cards`  
-            const animateDeck = selected === key  
-            const deck = (<Deck key={`deck-${(index + 1)}`}
-                  title={title}
-                  body={body}
-                  onPress={() => this.select(title)} />)
+        <MainContainer scrollbar footer title="Decks">
+          {decks.map(item => {               
+            const { index, title, body, lastQuiz } = item
+            const{ correct, numQuestions, executedToday } = lastQuiz
+            const animateDeck = selected === title  
+            const deck = (<Deck key={`deck-${index}`}
+                               title={title}
+                               body={body}
+                               index={index}
+                               numQuestions={numQuestions}
+                               correct={correct}
+                               quizExecuted={executedToday}
+                               onPress={() => this.handleSelectDeck(title)} />)
             return (
               animateDeck === true ?
-                (<Animatable.View key={`animation-${(index + 1)}`}
+                (<Animatable.View key={`animation-${(index)}`}
                   animation="swing"
                   iterationCount={1}
-                  duration={700}
+                  duration={600}
                   direction="normal"
-                  onAnimationEnd={() => this.showSelecteDeck()}>
-               {deck}
-              </Animatable.View>)
+                  onAnimationEnd={() => this.handleShowDeck()}>
+                  {deck}
+                </Animatable.View>)
               : deck)
-
-          })}
-          <SuccessToast duration={0} visible={this.state.showNotification} message="Please, you need study today!" />
+          })}        
         </MainContainer>
     )
   }
 }
 
-const mapStateToProps = ({ decks, flux }) => {  
-  const { data } = flux
+const mapStateToProps = ({ decks }) => {  
+  const today = getCurrentDate()
+  const cardsWerePlayedToday = Object.keys(decks)
+                                    .filter(key => decks[key].lastQuiz.date === today)
+                                    .length > 0
   return {
-    decks,
-    data
+    decks: Object.keys(decks)
+      .sort((a, b) => getSortCondition(decks[a]['title'], decks[b]['title'], 'asc'))
+      .map((key, index) => ({
+        index: index + 1,
+        title: decks[key].title,
+        body: `${decks[key].questions.length} cards`,
+        lastQuiz: {
+          executedToday: decks[key].lastQuiz.date === today,
+          numQuestions: decks[key].lastQuiz.correct + decks[key].lastQuiz.incorrect,
+          correct: decks[key].lastQuiz.correct
+        }
+    })),
+    cardsWerePlayedToday
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    receiveDecks: async() => {
+    fetchDecks: async() => {
       return handleReceiveDecks(dispatch)
     },
-    newDeck: () => Actions.NewDeck(),
-    showDeck: (title) => Actions.DeckView({ title })
+    onAddDeck: () => Actions.NewDeck(),
+    onShowDeck: (title) => Actions.DeckView({ title })
   }
 }
 
