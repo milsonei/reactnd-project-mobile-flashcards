@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Card, CardItem, Body, Grid, Form, Row, Col, Item, Button, Input, Text } from 'native-base'
+import { StyleSheet } from 'react-native'
+import { Card, CardItem, Body, Form, Item, Button, Input, Text } from 'native-base'
 import MainContainer from '../components/MainContainer'
 import { handleAddDeck } from '../actions';
 import { connect } from 'react-redux';
@@ -9,51 +10,72 @@ import { clearError } from '../actions/error'
 import Loading from '../components/Loading'
 import { showAlert } from '../utils/helpers'
 import colors from '../utils/colors';
+import PropTypes from 'prop-types'
+import { commomStyles } from '../utils/styles';
+
+/**
+ * Component that renders the screen responsible for adding a card to a deck
+ */
 class NewDeckScreen extends Component{
+  static propTypes = {
+    success: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    onAddDeck: PropTypes.func.isRequired,
+    onGoBack: PropTypes.func.isRequired,
+    onClearSuccess: PropTypes.func.isRequired,
+    onClearError: PropTypes.func.isRequired,
+  }
+
   state = {
     title: '',
     sending: false
   }
-  componentWillReceiveProps(nextProps) {
-    const { success, error, goBack, clearSuccess, clearError } = nextProps
-
-    if (success) {
-      goBack()
-      clearSuccess()  
-    }
-
-    if (error) {  
-      showAlert( error.title, error.message)
-      clearError()
-      this.stopLoading()
-    }
- }
-  onChangeText(text) {
+ 
+  handleChangeTitle = (text) => {
     this.setState({
       title: text
     });
-  }  
-  startLoading() {
+  }
+
+  startLoading = () => {
     this.setState((state) => ({
       ...state,
       sending: true
     }))
   }
-  stopLoading() {
+
+  stopLoading = () => {
     this.setState((state) => ({
       ...state,
       sending: false
     }))
   }
-  handleSubmit() {
+
+  handleSubmit = () => {
     const { title } = this.state
-    const { addDeck } = this.props
+    const { onAddDeck } = this.props
     this.startLoading()
-    addDeck(title)
+    onAddDeck(title)
   }
  
+  componentWillReceiveProps(nextProps) {
+    const { success, error, onGoBack, onClearSuccess, onClearError } = nextProps
+
+    if (success) {
+      onGoBack()
+      onClearSuccess()  
+    }
+
+    if (error) {  
+      showAlert( error.title, error.message)
+      onClearError()
+      this.stopLoading()
+    }
+  }
+  
   render() {
     const { title, sending } = this.state
+
     if (sending) {
       return (
         <Loading/>
@@ -61,47 +83,39 @@ class NewDeckScreen extends Component{
     }
         const empty = title === ''
         return (
-          <MainContainer footer title="Add Deck">
-            <Grid >
-              <Row style={{height:"100%"}}>
-                <Col>                          
-                  <Card style={{marginTop: "auto", marginBottom: "auto"}}>
-                      <CardItem header bordered>
-                        <Text style={{ color:colors.purple, textAlign:"center", marginTop: "auto", marginBottom: "auto", marginLeft:"auto", marginRight:"auto", fontSize:30}}>What is the title of the new deck?</Text>                                      
-                      </CardItem>
-                      <CardItem bordered>
-                        <Body>
-                          <Form style={{width:"100%"}}>
-                            <Item regular style={{marginTop: "auto", marginBottom: "auto"}}>
-                                <Input                        
-                                  placeholder="Type title here"
-                                  value={title}
-                                  onChangeText={this.onChangeText.bind(this)} />
-                                </Item>  
-                          </Form> 
-                        </Body>
-                      </CardItem>    
-                      <CardItem footer bordered>
-                         <Button style={{ marginBottom: "auto", marginTop: "auto", marginLeft: "auto", marginRight: "auto" }}
-                          primary
-                          disabled={empty}
-                          onPress={() => this.handleSubmit()}>
-                            <Text>Submit</Text>
-                          </Button>
-                      </CardItem>     
-                    </Card> 
-                  </Col>
-                </Row>             
-              </Grid>
+          <MainContainer centerContentVertically footer title="Add Deck">
+            <Card style={styles.centerVertically}>
+                <CardItem header bordered>
+                  <Text style={styles.cardHeaderText}>What is the title of the new deck?</Text>
+                </CardItem>
+                <CardItem bordered>
+                  <Body>
+                    <Form style={styles.maxWidth}>
+                      <Item regular style={styles.centerHorizontally}>
+                          <Input                        
+                            placeholder="Type title here"
+                            value={title}
+                            onChangeText={this.handleChangeTitle.bind(this)} />
+                      </Item>  
+                    </Form> 
+                  </Body>
+                </CardItem>    
+                <CardItem footer bordered>
+                <Button style={styles.centerAll}
+                    primary
+                    disabled={empty}
+                    onPress={() => this.handleSubmit()}>
+                      <Text style={styles.buttonText}>Submit</Text>
+                    </Button>
+                </CardItem>
+              </Card> 
           </MainContainer>
         )
     }
 }
         
-const mapStateToProps = ({ flux, success, error }) => {
-  const { data } = flux  
+const mapStateToProps = ({ success, error }) => {
   return {
-    data,
     success,
     error
   }
@@ -109,13 +123,40 @@ const mapStateToProps = ({ flux, success, error }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addDeck: (title) => { 
+    onAddDeck: (title) => { 
       handleAddDeck(title, dispatch)
     },
-    clearSuccess: () => dispatch(clearSuccess()),
-    clearError: () => dispatch(clearError()),
-    goBack: () => Actions.pop()
+    onClearSuccess: () => dispatch(clearSuccess()),
+    onClearError: () => dispatch(clearError()),
+    onGoBack: () => Actions.pop()
   }
 }
+
+const styles = StyleSheet.create({ 
+  maxWidth: {
+    ...commomStyles.maxWidth
+  },  
+  centerVertically: {
+    ...commomStyles.centerVertically
+  },
+  centerHorizontally: {
+    ...commomStyles.centerHorizontally
+  },
+  centerAll: {
+    ...commomStyles.centerHorizontally,
+    ...commomStyles.centerVertically
+  }, 
+  buttonText: {
+    ...commomStyles.centerText,
+    ...commomStyles.centerHorizontally
+  },
+  cardHeaderText: {    
+    ...commomStyles.centerText,
+    ...commomStyles.centerHorizontally,
+    ...commomStyles.centerVertically,
+    color: colors.purple,
+    fontSize: 30
+  }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewDeckScreen)

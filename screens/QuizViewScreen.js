@@ -1,85 +1,123 @@
 import React, { Component } from 'react'
 import QuizCard from '../components/QuizCard'
-import QuizResult from '../components/QuizResult'
+import QuizScore from '../components/QuizScore'
 import MainContainer from '../components/MainContainer'
 import { connect } from 'react-redux'
-import { Grid, Row, Col } from 'native-base'
-import { addCorrect, addIncorrect, restartQuiz } from '../actions/quiz';
-import { Actions } from 'react-native-router-flux'
+import { addCorrect, addIncorrect, restartQuiz } from '../actions/quiz'
+import { handleSetCompletedQuiz } from '../actions'
+import { getCurrentDate } from '../utils/helpers'
+import { clearSuccess } from '../actions/success'
+import PropTypes from 'prop-types'
+import { Actions } from 'react-native-router-flux';
+/**
+ * Screen responsible for starting a new test and showing the result
+ */
 class QuizViewScreen extends Component{  
+  static propTypes = {
+    card: PropTypes.object,
+    numQuestions :PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
+    completed : PropTypes.bool.isRequired,
+    incorrect: PropTypes.number.isRequired,
+    correct: PropTypes.number.isRequired,
+    dailyQuizSaved: PropTypes.bool.isRequired,
+    onAddCorrect: PropTypes.func.isRequired,
+    onAddIncorrect: PropTypes.func.isRequired,
+    onSetCompletedQuiz: PropTypes.func.isRequired,
+    onRestartQuiz: PropTypes.func.isRequired,
+    onClearSuccess: PropTypes.func.isRequired,
+    onGoBack: PropTypes.func.isRequired,
+  }
+
   handleAddCorrect = () => {
-      const { deck, addCorrect } = this.props
-      addCorrect(deck)
+      const { deck, onAddCorrect } = this.props
+      onAddCorrect(deck)
   }
 
   handleAddIncorrect = () => {
-    const { deck, addIncorrect } = this.props
-    addIncorrect(deck)
+    const { deck, onAddIncorrect } = this.props
+    onAddIncorrect(deck)
   }
 
-  handleRestart = () => {
-      this.props.restart()
+  handleRestart = () => this.props.onRestartQuiz()
+   
+  handleGoBack = () => this.props.onGoBack()
+
+  componentWillReceiveProps(nextProps){
+    const { deck, completed, dailyQuizSaved, correct, incorrect, onSetCompletedQuiz } = nextProps
+    if (completed && !dailyQuizSaved) {      
+      onSetCompletedQuiz(deck, correct, incorrect)
+    }
   }
 
   render() {        
     const { card, deck, correct, completed, numQuestions, current } = this.props   
       if (completed === true) {
-          return (<MainContainer header title="Quiz">
-                    <QuizResult deck={deck}
+          return (<MainContainer centerContentVertically header title="Quiz">
+                    <QuizScore deck={deck}
                                 correct={correct}
                                 numQuestions={numQuestions}
-                                restart={() => this.handleRestart()} />
+                                onGoBack={() => this.handleGoBack()}
+                                onRestart={() => this.handleRestart()} />
                   </MainContainer>)
       }
       return (
-        <MainContainer header title="Quiz">
-          <Grid>
-            <Row style={{ height: "100%" }}>
-              <Col>
-                <QuizCard
-                  item={`${(current + 1)}/${numQuestions}`}
-                  handleAddCorrect={() => this.handleAddCorrect()}
-                  handleAddIncorrect={() => this.handleAddIncorrect()}
-                  deck={deck}
-                  question={card.question}
-                  answer={card.answer} />
-              </Col>
-            </Row>
-          </Grid>
+        <MainContainer centerContentVertically header title="Quiz">
+          <QuizCard
+            item={`${(current + 1)}/${numQuestions}`}
+            onAddCorrect={() => this.handleAddCorrect()}
+            onAddIncorrect={() => this.handleAddIncorrect()}
+            deck={deck}
+            question={card.question}
+            answer={card.answer} />
         </MainContainer>
       )
     }
 }
 
-const mapStateToProps = ({ decks, flux, quiz }, { deck }) => {
-  const { data } = flux
-  const { correct, incorrect, deck: deckName } = quiz
-  const total = deckName === deck ? correct + incorrect : 0
+const mapStateToProps = ({ decks, quiz }, { deck }) => {
+  const { correct, incorrect } = quiz
+  const total = correct + incorrect
   const current = total
   const selectedDeck = decks[deck]
-  const completed = (total === selectedDeck.questions.length)  
+  const completed = (total === selectedDeck.questions.length)
+  
+  const dailyQuizSaved = completed &&
+    selectedDeck.lastQuiz.date === getCurrentDate() &&
+    selectedDeck.lastQuiz.correct === correct &&
+    selectedDeck.lastQuiz.incorrect === incorrect
+  
   return {
     card: completed ? null : selectedDeck.questions[current],
     numQuestions :selectedDeck.questions.length,
     current,
     completed,
+    incorrect,
     correct,
-    data
+    dailyQuizSaved
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCorrect: (deck, current) => {
-     dispatch(addCorrect(deck, current))
+    onAddCorrect: (deck) => {
+     dispatch(addCorrect(deck))
     },
-    addIncorrect: (deck, current) => {
-      dispatch(addIncorrect(deck, current))
+    onAddIncorrect: (deck) => {
+      dispatch(addIncorrect(deck))
     },
-    restart: () => {
+    onClearSuccess: () => {
+      dispatch(clearSuccess())
+    },
+    onRestartQuiz: () => {
       dispatch(restartQuiz())
     },
-    goBack: () => Actions.pop()
+    onGoBack: () => {
+      Actions.pop()  
+    },
+    onSetCompletedQuiz: (deck, correct, incorrect) => {
+      handleSetCompletedQuiz(deck, correct, incorrect, dispatch)
+    }
   }
 }
 
