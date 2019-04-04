@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
-import { getInitialData } from './helpers';
-const FLASHCARDS_STORAGE_KEY = "mobile-flashcards"
+import { getInitialData, getCurrentDate } from './helpers';
+const STORAGE_KEY = "MobileFlashcards:storage"
 /**
  * Class wrapper to access and manage AsyncStorage
  */
@@ -9,12 +9,12 @@ class MyStorage{
     /**
      * Get all decks from AsyncStorage
      */
-    async getDecks() {
-        return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    async getDecks() {        
+        return AsyncStorage.getItem(STORAGE_KEY)
             .then((results) => {        
                 if (results === null) {
                     results = getInitialData()
-                    AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(results))
+                    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(results))
                 }
                 const parsedResults = JSON.parse(results)
                 return parsedResults
@@ -51,9 +51,14 @@ class MyStorage{
      * @param {string} title
      */
     saveDeckTitle(title){
-        return AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
+        return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
             [title]: {
                 title,
+                lastQuiz: {
+                    date: '',
+                    correct: 0,
+                    incorrect: 0
+                },               
                 questions: []
             }
         }))
@@ -68,9 +73,31 @@ class MyStorage{
         return this.getDecks().then((data) => {
             const deck = data[title]
             deck.questions.push(card)
-            AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(data))
+            AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
         })
     }
+     /**
+      * Set last quiz completed for specific deck stor
+      * @param {*} title Deck title
+      * @param {*} correct number of correct questions
+      * @param {*} incorrect number of incorrect questions
+      */
+    async setLastCompletedQuiz(title, correct, incorrect){
+        return this.getDecks().then((data) => {
+            const deck = data[title]
+            deck.lastQuiz.date = getCurrentDate()
+            deck.lastQuiz.correct = correct
+            deck.lastQuiz.incorrect = incorrect
+            AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+        })
+    }
+
+     /**
+     * Clear local storage
+     */
+  clearLocalStorage () {
+    return AsyncStorage.removeItem(STORAGE_KEY)
+  }
 }
 
 const storage = new MyStorage()
