@@ -16,7 +16,7 @@ import PropTypes from 'prop-types'
  */
 const ContainerHeader = (props) => {
     const { title, onGoBack } = props 
-    return (<Header>
+    return (<Header iosBarStyle={"light-content"}>
                 <Left>
                     <Button transparent onPress={() => onGoBack()}>                    
                     <Icon name='arrow-back' />           
