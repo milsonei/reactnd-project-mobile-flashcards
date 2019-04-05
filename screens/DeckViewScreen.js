@@ -47,7 +47,7 @@ class DeckViewScreen extends Component{
                   <Button
                     style={styles.maxWidth}
                     light
-                    onPress={() => this.handleAddNewCard()}>
+                    onPress={this.handleAddNewCard}>
                     <Text style={styles.buttonText}>Add Card</Text>
                   </Button>
                 </Left>
@@ -56,7 +56,7 @@ class DeckViewScreen extends Component{
                     style={styles.maxWidth}
                     primary
                     disabled={deck.questions.length == 0}
-                    onPress={() => this.handleStartQuiz()}>
+                    onPress={this.handleStartQuiz}>
                   <Text style={styles.buttonText}>Start Quiz</Text>
                   </Button>
                 </Right>

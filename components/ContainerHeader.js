@@ -18,7 +18,7 @@ const ContainerHeader = (props) => {
     const { title, onGoBack } = props 
     return (<Header iosBarStyle={"light-content"}>
                 <Left>
-                    <Button transparent onPress={() => onGoBack()}>                    
+                    <Button transparent onPress={onGoBack}>                    
                     <Icon name='arrow-back' />           
                     </Button>
                 </Left>

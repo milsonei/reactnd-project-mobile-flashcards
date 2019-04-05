@@ -17,14 +17,14 @@ const ContainerFooter = (props) => {
                 <FooterTab>
                     <Button active={currentTab === 'home'}                                
                             vertical
-                            onPress={() => onGoHome()}>            
+                            onPress={onGoHome}>            
                         <Icon name="apps" />
                         <Text>Decks</Text>
                     </Button>
                     <Button
                         active={currentTab === 'newdeck'}
                         vertical
-                        onPress={() => onGoAddDeck()}>
+                        onPress={onGoAddDeck}>
                         <Icon name="add-circle"/>
                         <Text>New Deck</Text>
                     </Button>

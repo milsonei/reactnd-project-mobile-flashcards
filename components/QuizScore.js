@@ -40,7 +40,7 @@ export default class QuizScore extends Component{
                       <Button
                         style={{ width: "100%" }}
                         primary
-                        onPress={() => this.handleRestart()}>
+                        onPress={this.handleRestart}>
                         <Text style={styles.buttonText}>Restart Quiz</Text>
                       </Button>
                     </Left>
@@ -48,7 +48,7 @@ export default class QuizScore extends Component{
                       <Button
                       style={{ width: "100%" }}
                       light
-                      onPress={() => this.handleGoBack()}>
+                      onPress={this.handleGoBack}>
                       <Text style={styles.buttonText}>Back to Deck</Text>
                       </Button> 
                     </Right>  

@@ -51,7 +51,7 @@ const QuizFrontCard = (props) => {
                   <Col style={{width:"50%", padding:5}}>
                     <Button style={styles.maxWidth}
                             success
-                            onPress={() => onAddCorrect()}>
+                            onPress={onAddCorrect}>
                       <Text style={styles.centerHorizontally}>
                         Correct
                       </Text>
@@ -60,7 +60,7 @@ const QuizFrontCard = (props) => {
                   <Col style={{width:"50%", padding:5}}>
                     <Button style={styles.maxWidth}
                             danger
-                            onPress={() => onAddIncorrect()}>
+                            onPress={onAddIncorrect}>
                       <Text style={styles.centerHorizontally}>
                         Incorrect
                       </Text>
