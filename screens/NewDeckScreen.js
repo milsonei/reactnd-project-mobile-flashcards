@@ -81,7 +81,7 @@ class NewDeckScreen extends Component{
         <Loading/>
       )
     }
-        const empty = title === ''
+        const empty = title.trim() === ''
         return (
           <MainContainer centerContentVertically footer title="Add Deck">
             <Card style={styles.centerVertically}>
@@ -104,7 +104,7 @@ class NewDeckScreen extends Component{
                 <Button style={styles.centerAll}
                     primary
                     disabled={empty}
-                    onPress={() => this.handleSubmit()}>
+                    onPress={this.handleSubmit}>
                       <Text style={styles.buttonText}>Submit</Text>
                     </Button>
                 </CardItem>

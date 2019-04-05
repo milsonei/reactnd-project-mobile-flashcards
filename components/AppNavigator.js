@@ -11,7 +11,7 @@ import transitionConfig from './TransitionConfig'
  * It is alternative router creation method mostly used for Redux integration
  */
 const AppNavigator = Actions.create(
-    <Scene key="root" hideNavBar ={true} transitionConfig={transitionConfig}>
+    <Scene key="root" hideNavBar transitionConfig={transitionConfig}>
         <Scene key="Home" component={HomeScreen} initial/>
         <Scene key="NewDeck" component={NewDeckScreen}/>
         <Scene key="DeckView" component={DeckViewScreen}/>

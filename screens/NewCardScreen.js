@@ -85,7 +85,7 @@ class NewCardScreen extends Component{
       )
     }
     const { deck } = this.props
-        const empty = question === '' || answer === ''
+        const empty = question.trim() === '' || answer.trim() === ''
         return (
           <MainContainer centerContentVertically header title="Add Card">
               <Card style={styles.centerVertically}>
@@ -115,7 +115,7 @@ class NewCardScreen extends Component{
                       style={styles.maxWidth}
                       primary
                       disabled={empty}
-                      onPress={() => this.handleAddCard()}>
+                      onPress={this.handleAddCard}>
                       <Text style={styles.buttonText}>Submit</Text>
                     </Button>
                 </CardItem>

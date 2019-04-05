@@ -64,7 +64,7 @@ class HomeScreen extends Component {
 
   render() {
     const { ready } = this.state
-    if (ready === false){
+    if (!ready){
       return (
         <Loading/>
       )
@@ -92,7 +92,7 @@ class HomeScreen extends Component {
                   iterationCount={1}
                   duration={600}
                   direction="normal"
-                  onAnimationEnd={() => this.handleShowDeck()}>
+                  onAnimationEnd={this.handleShowDeck}>
                   {deck}
                 </Animatable.View>)
               : deck)

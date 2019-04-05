@@ -52,21 +52,21 @@ class QuizViewScreen extends Component{
 
   render() {        
     const { card, deck, correct, completed, numQuestions, current } = this.props   
-      if (completed === true) {
+      if (completed) {
           return (<MainContainer centerContentVertically header title="Quiz">
                     <QuizScore deck={deck}
                                 correct={correct}
                                 numQuestions={numQuestions}
-                                onGoBack={() => this.handleGoBack()}
-                                onRestart={() => this.handleRestart()} />
+                                onGoBack={this.handleGoBack}
+                                onRestart={this.handleRestart} />
                   </MainContainer>)
       }
       return (
         <MainContainer centerContentVertically header title="Quiz">
           <QuizCard
             item={`${(current + 1)}/${numQuestions}`}
-            onAddCorrect={() => this.handleAddCorrect()}
-            onAddIncorrect={() => this.handleAddIncorrect()}
+            onAddCorrect={this.handleAddCorrect}
+            onAddIncorrect={this.handleAddIncorrect}
             deck={deck}
             question={card.question}
             answer={card.answer} />

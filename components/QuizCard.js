@@ -14,14 +14,14 @@ class QuizCard extends Component{
       const { deck, question, answer, item } = this.props
         return (          
                 <FlipCard
-                flipHorizontal={true}
+                flipHorizontal
                 flipVertical={false}
                 flip={false}
-                clickable={true}>
+                clickable>
                   <QuizFrontCard deck={deck}
                                  question={question}
-                                 onAddCorrect={() => this.handleAddCorrect()}
-                                 onAddIncorrect={() => this.handleAddIncorrect()}
+                                 onAddCorrect={this.handleAddCorrect}
+                                 onAddIncorrect={this.handleAddIncorrect}
                                  item={item} />
                   <QuizBackCard answer={answer}/>
                 </FlipCard>
